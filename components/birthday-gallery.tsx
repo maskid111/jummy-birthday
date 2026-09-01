@@ -93,7 +93,7 @@ export function BirthdayGallery() {
 
       {!unlocked ? (
         <section className="welcome-panel" aria-labelledby="welcome-title">
-          <div className="party-pill"><Sparkles size={15} /> Today is her day</div>
+          <div className="party-pill"><Sparkles size={15} /> 02/09</div>
           <div className="eyebrow"><span className="eyebrow-line" /> Birthday memories <span className="eyebrow-line" /></div>
           <h1 id="welcome-title">My birthday vault,<br /><em>my favorite moments.</em></h1>
           <p className="welcome-copy">I made this little party room so my people can open it, smile, and keep their favorite pictures from my big day.</p>
