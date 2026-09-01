@@ -39,7 +39,7 @@ export async function GET(request: Request, context: PhotoContext) {
   const stream = createReadStream(filePath)
   const headers = new Headers({
     'Content-Type': 'image/jpeg',
-    'Cache-Control': 'private, max-age=3600',
+    'Cache-Control': 'no-store, max-age=0',
   })
 
   if (new URL(request.url).searchParams.has('download')) {

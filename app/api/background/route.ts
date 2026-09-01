@@ -15,7 +15,7 @@ export async function GET() {
   return new Response(createReadStream(filePath) as unknown as BodyInit, {
     headers: {
       'Content-Type': 'image/jpeg',
-      'Cache-Control': 'public, max-age=3600',
+      'Cache-Control': 'no-store, max-age=0',
     },
   })
 }
