@@ -48,7 +48,9 @@ button:disabled { cursor: wait; opacity: .72; }
   position: fixed;
   inset: 0;
   z-index: -3;
-  background: url('/api/background') center / cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   transform: scale(1.03);
 }
 

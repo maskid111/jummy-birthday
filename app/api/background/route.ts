@@ -3,12 +3,9 @@ import path from 'node:path'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const filePath = [
-    path.resolve(process.cwd(), 'backgroung.jpg'),
-    path.resolve(process.cwd(), 'photos', 'backgroung.jpg'),
-  ].find((candidate) => existsSync(candidate))
+  const filePath = path.resolve(process.cwd(), 'backgroung.jpg')
 
-  if (!filePath) {
+  if (!existsSync(filePath)) {
     return NextResponse.json({ ok: false }, { status: 404 })
   }
 

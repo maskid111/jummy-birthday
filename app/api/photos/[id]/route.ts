@@ -27,12 +27,9 @@ export async function GET(request: Request, context: PhotoContext) {
     return NextResponse.json({ ok: false }, { status: 404 })
   }
 
-  const filePath = [
-    path.resolve(process.cwd(), `image (${photoNumber}).jpg`),
-    path.resolve(process.cwd(), 'photos', `image (${photoNumber}).jpg`),
-  ].find((candidate) => existsSync(candidate))
+  const filePath = path.resolve(process.cwd(), `image (${photoNumber}).jpg`)
 
-  if (!filePath) {
+  if (!existsSync(filePath)) {
     return NextResponse.json({ ok: false }, { status: 404 })
   }
 

@@ -23,6 +23,7 @@ const photos = Array.from({ length: TOTAL_PHOTOS }, (_, index) => ({
 
 export function BirthdayGallery() {
   const audioRef = useRef<HTMLAudioElement>(null)
+  const [mediaVersion] = useState(() => Date.now().toString())
   const [code, setCode] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [error, setError] = useState(false)
@@ -41,6 +42,10 @@ export function BirthdayGallery() {
     if (!nextMuted) {
       playMusic()
     }
+  }
+
+  function freshMediaUrl(src: string) {
+    return `${src}${src.includes('?') ? '&' : '?'}v=${mediaVersion}`
   }
 
   async function unlock(event: React.FormEvent<HTMLFormElement>) {
@@ -66,7 +71,7 @@ export function BirthdayGallery() {
 
   function download(src: string, number: number) {
     const link = document.createElement('a')
-    link.href = `${src}?download=1`
+    link.href = `${freshMediaUrl(src)}&download=1`
     link.download = `birthday-girl-photo-${number}.jpg`
     link.click()
   }
@@ -78,7 +83,7 @@ export function BirthdayGallery() {
   return (
     <main className="birthday-shell" onPointerDown={playMusic}>
       <audio ref={audioRef} src="/api/music" autoPlay loop muted={muted} playsInline />
-      <div className="background-photo" aria-hidden="true" />
+      <div className="background-photo" style={{ backgroundImage: `url('${freshMediaUrl('/api/background')}')` }} aria-hidden="true" />
       <div className="background-shade" aria-hidden="true" />
 
       <header className="site-header">
@@ -136,7 +141,7 @@ export function BirthdayGallery() {
             {photos.map((photo) => (
               <article className="photo-card" key={photo.number}>
                 <button className="photo-open" onClick={() => setSelected(photo.number)} aria-label={`View photo ${photo.number}`}>
-                  <img src={photo.src} alt={`Birthday girl memory ${photo.number}`} />
+                  <img src={freshMediaUrl(photo.src)} alt={`Birthday girl memory ${photo.number}`} />
                   <span className="photo-number">{String(photo.number).padStart(2, '0')}</span>
                 </button>
                 <button className="photo-download" onClick={() => download(photo.src, photo.number)} aria-label={`Download photo ${photo.number}`}><Download size={16} /></button>
@@ -152,7 +157,7 @@ export function BirthdayGallery() {
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Photo ${selected} preview`} onClick={() => setSelected(null)}>
           <button className="lightbox-close" onClick={() => setSelected(null)} aria-label="Close preview"><X /></button>
           <button className="lightbox-arrow left" onClick={(event) => { event.stopPropagation(); setSelected(selected === 1 ? TOTAL_PHOTOS : selected - 1) }} aria-label="Previous photo"><ChevronLeft /></button>
-          <img src={`/api/photos/${selected}`} alt={`Birthday girl memory ${selected}`} onClick={(event) => event.stopPropagation()} />
+          <img src={freshMediaUrl(`/api/photos/${selected}`)} alt={`Birthday girl memory ${selected}`} onClick={(event) => event.stopPropagation()} />
           <button className="lightbox-arrow right" onClick={(event) => { event.stopPropagation(); setSelected(selected === TOTAL_PHOTOS ? 1 : selected + 1) }} aria-label="Next photo"><ChevronRight /></button>
           <button className="lightbox-download" onClick={(event) => { event.stopPropagation(); download(`/api/photos/${selected}`, selected) }}><Download size={16} /> Download</button>
         </div>
